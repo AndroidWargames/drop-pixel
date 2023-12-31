@@ -10,7 +10,7 @@ export const white: ColorData = [true, true, true]
 export const black: ColorData = [false, false, false]
 export const all = [red, yellow, green, cyan, blue, magenta, white, black]
 export const random = () => (
-  all[Math.floor(Math.random() * all.length)]
+  all[Math.floor(Math.random() * (all.length - 1))]
 )
 
 const boolToHex = (b: boolean) => (
@@ -20,3 +20,7 @@ const boolToHex = (b: boolean) => (
 export const colorToHex = (color: ColorData) => (
   color.map((v) => boolToHex(v)).join("").padStart(7, "#")
 )
+
+export const sumColors = (a: ColorData, b: ColorData) => {
+  return a.map((x, i) => x || b[i]) as ColorData
+}

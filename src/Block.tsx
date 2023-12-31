@@ -1,6 +1,5 @@
 import { ColorData } from "./types"
-import { colorToHex, random } from "./Colors"
-import {useGameContext} from "./GameContext"
+import { colorToHex } from "./Colors"
 
 type BlockProperties = {
   color: ColorData
@@ -8,13 +7,9 @@ type BlockProperties = {
   y: number
 }
 
-export const Block = ({color, x, y}: BlockProperties) => {
-  const context = useGameContext()
-  const click = () => {
-    context?.setColor({x, y, color: random()})
-  }
+export const Block = ({color}: BlockProperties) => {
   const style = {
     backgroundColor: colorToHex(color),
   }
-  return <div style={style} className="Block" onClick={click}> </div>
+  return <div style={style} className="Block"> </div>
 }
