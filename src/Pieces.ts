@@ -1,137 +1,88 @@
-import {blue, green, magenta, red, sumColors} from "./Colors"
+import {blue, green, magenta, random, red} from "./Colors"
 import {boardHeight, boardWidth} from "./constants"
-import {BoardData, Piece, Chonk, Coordinate, ColorData} from "./types"
+import {Coordinate, Piece, PieceKind} from "./types"
+
+type PieceTemplate = {
+  chonkLocations: Coordinate[]
+  origin: Coordinate
+  location: Coordinate
+}
 
 export const generatePiece = (): Piece => {
+  const allKinds = ["s", "z", "i", "j", "l", "o"] as PieceKind[]
+  const selected = allKinds[Math.floor(Math.random() * (allKinds.length))]
+  return generateSpecificPiece(selected)
+}
+
+const generateSpecificPiece = (kind: PieceKind): Piece => {
+  const template = pieceTemplates[kind]
   return {
-    chonks: [
-      {x: 0, y: 0, color: red},
-      {x: 1, y: 0, color: blue},
-      {x: 1, y: 1, color: magenta},
-      {x: 2, y: 1, color: green},
+    origin: template.origin,
+    location: template.location,
+    kind: kind,
+    chonks: template.chonkLocations.map((l) => ({ ...l, color: random()}))
+  }
+}
+
+const pieceTemplates: Record<PieceKind, PieceTemplate> = {
+  z: {
+    chonkLocations: [
+      {x: 0, y: 0},
+      {x: 1, y: 0},
+      {x: 1, y: 1},
+      {x: 2, y: 1},
     ],
-    origin: {x: 1, y: 0},
-    location: {x: 4, y: 1},
-    kind: "z"
-  }
-}
-
-export const absoluteChonks = (piece: Piece) => {
-  return piece.chonks.map((chonk) => (
-    {...chonk, x: chonk.x + piece.location.x, y: chonk.y + piece.location.y}
-  ))
-}
-
-const rotateChonkRight = (origin: Coordinate) => {
-  return (chonk: Chonk) => (
-    {
-      ...chonk,
-      x: -1 * (chonk.y - origin.y) + origin.x,
-      y: (chonk.x - origin.x) + origin.y,
-    }
-  )
-}
-
-const rotateChonkLeft = (origin: Coordinate) => {
-  return (chonk: Chonk) => (
-    {
-      ...chonk,
-      x: (chonk.y - origin.y) + origin.x,
-      y: -1 * (chonk.x - origin.x) + origin.y,
-    }
-  )
-}
-
-const rotateChonkRed = (origin: Coordinate) => {
-  return (chonk: Chonk) => {
-    let c = chonk.color
-    c.push(c.shift() as boolean)
-    return { ...chonk, color: c }
-  }
-}
-
-const rotateChonkBlue = (origin: Coordinate) => {
-  return (chonk: Chonk) => {
-    let c = chonk.color
-    c.unshift(c.pop() as boolean)
-    return { ...chonk, color: c }
-  }
-}
-
-const validateShift = (piece: Piece, board: BoardData) => {
-  let valid = true
-  absoluteChonks(piece).forEach((chonk) => {
-    if (chonk.x < 0 || chonk.x >= boardWidth || chonk.y >= boardHeight) {
-      return valid = false
-    }
-  })
-  return valid
-}
-
-const tryToWiggle = (oldPiece: Piece, newPiece: Piece, board: BoardData) => {
-  if (validateShift(newPiece, board)) { return newPiece }
-  const leftPiece = shiftLeft(newPiece, board)
-  if (validateShift(leftPiece, board)) { return leftPiece }
-  const rightPiece = shiftRight(newPiece, board)
-  if (validateShift(rightPiece, board)) { return rightPiece }
-  return oldPiece
-}
-
-export const rotateRight = (piece: Piece, board: BoardData) => {
-  const method = rotateChonkRight(piece.origin)
-  const newPiece = { ...piece, chonks: piece.chonks.map(method)}
-  return tryToWiggle(piece, newPiece, board)
-}
-
-export const rotateLeft = (piece: Piece, board: BoardData) => {
-  const method = rotateChonkLeft(piece.origin)
-  const newPiece = { ...piece, chonks: piece.chonks.map(method)}
-  return tryToWiggle(piece, newPiece, board)
-}
-
-export const rotateRed = (piece: Piece, board: BoardData) => {
-  const method = rotateChonkRed(piece.origin)
-  const newPiece = { ...piece, chonks: piece.chonks.map(method)}
-  return tryToWiggle(piece, newPiece, board)
-}
-
-export const rotateBlue = (piece: Piece, board: BoardData) => {
-  const method = rotateChonkBlue(piece.origin)
-  const newPiece = { ...piece, chonks: piece.chonks.map(method)}
-  return tryToWiggle(piece, newPiece, board)
-}
-
-export const shiftLeft = (piece: Piece, board: BoardData) => {
-  const newPiece = {
-    ...piece,
-    location: {
-      ...piece.location,
-      x: piece.location.x - 1
-    }
-  }
-  return validateShift(newPiece, board) ? newPiece : piece
-}
-
-export const shiftRight = (piece: Piece, board: BoardData) => {
-  const newPiece = {
-    ...piece,
-    location: {
-      ...piece.location,
-      x: piece.location.x + 1
-    }
-  }
-
-  return validateShift(newPiece, board) ? newPiece : piece
-}
-
-export const shiftDown = (piece: Piece, board: BoardData) => {
-  const newPiece = {
-    ...piece,
-    location: {
-      ...piece.location,
-      y: piece.location.y + 1
-    }
-  }
-
-  return validateShift(newPiece, board) ? newPiece : piece
+    origin: {x: 1, y: 1},
+    location: {x: 4, y: 0},
+  },
+  s: {
+    chonkLocations: [
+      {x: 0, y: 1},
+      {x: 1, y: 0},
+      {x: 1, y: 1},
+      {x: 2, y: 0},
+    ],
+    origin: {x: 1, y: 1},
+    location: {x: 4, y: 0},
+  },
+  l: {
+    chonkLocations: [
+      {x: 0, y: 1},
+      {x: 1, y: 1},
+      {x: 2, y: 1},
+      {x: 2, y: 0},
+    ],
+    origin: {x: 1, y: 1},
+    location: {x: 4, y: 0},
+  },
+  o: {
+    chonkLocations: [
+      {x: 0, y: 1},
+      {x: 1, y: 1},
+      {x: 2, y: 1},
+      {x: 2, y: 0},
+    ],
+    origin: {x: 0.5, y: 0.5},
+    location: {x: 5, y: 0},
+  },
+  j: {
+    chonkLocations: [
+      {x: 0, y: 0},
+      {x: 0, y: 1},
+      {x: 1, y: 1},
+      {x: 2, y: 1},
+    ],
+    origin: {x: 1, y: 1},
+    location: {x: 4, y: 0},
+  },
+  i: {
+    chonkLocations: [
+      {x: 0, y: 0},
+      {x: 0, y: 1},
+      {x: 0, y: 2},
+      {x: 0, y: 3},
+    ],
+    origin: {x: 0.5, y: 1.5},
+    location: {x: 5, y: 0},
+  },
 }

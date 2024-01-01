@@ -10,7 +10,7 @@ export const white: ColorData = [true, true, true]
 export const black: ColorData = [false, false, false]
 export const all = [red, yellow, green, cyan, blue, magenta, white, black]
 export const random = () => (
-  all[Math.floor(Math.random() * (all.length - 1))]
+  all[Math.floor(Math.random() * (all.length - 2))]
 )
 
 const boolToHex = (b: boolean) => (

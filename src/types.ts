@@ -15,11 +15,13 @@ export type BoardAssignment = Coordinate & {
 
 export type Chonk = BoardAssignment
 
+export type PieceKind = "s" | "z" | "i" | "j" | "l" | "o"
+
 export type Piece = {
   chonks: Chonk[]
   origin: Coordinate
   location: Coordinate
-  kind: "s" | "z" | "i" | "j" | "l" | "o"
+  kind: PieceKind
 }
 
 export type FallingPieceController = {
