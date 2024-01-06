@@ -24,6 +24,11 @@ export type Piece = {
   kind: PieceKind
 }
 
+export type Pieces = {
+  fallingPiece: Piece
+  pieceQueue: Piece[]
+}
+
 export type FallingPieceController = {
   rotateLeft: () => void
   rotateRight: () => void
@@ -32,5 +37,6 @@ export type FallingPieceController = {
   shiftLeft: () => void
   shiftRight: () => void
   shiftDown: () => void
+  drop: () => void
 }
 

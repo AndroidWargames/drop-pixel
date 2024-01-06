@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react"
-import {BoardData, Piece, FallingPieceController} from "./types"
+import {BoardData, Pieces, FallingPieceController} from "./types"
 import { buildController, sumPieceAndBoard } from "./FallingPieceController"
 import {black} from "./Colors"
 import {boardHeight, boardWidth} from "./constants"
@@ -16,13 +16,18 @@ export const newBoardData = () => Array.from({length: boardHeight}, () => Array.
 
 export const GameProvider = ({children}: {children: React.ReactNode}) => {
   const [board, setBoard] = useState<BoardData>(newBoardData())
-  const [fallingPiece, setFallingPiece] = useState<Piece>(generatePiece())
+  const [pieces, setPieces] = useState<Pieces>(
+    {
+      fallingPiece: generatePiece(),
+      pieceQueue: [generatePiece(), generatePiece(), generatePiece()]
+    }
+  )
 
 
-  const fallingPieceController = buildController(fallingPiece, board, setFallingPiece, setBoard)
+  const fallingPieceController = buildController(pieces, board, setPieces, setBoard)
 
   const value = {
-    board: sumPieceAndBoard(fallingPiece, board), fallingPieceController
+    board: sumPieceAndBoard(pieces.fallingPiece, board), fallingPieceController
   }
 
   return (

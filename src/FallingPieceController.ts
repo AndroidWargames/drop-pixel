@@ -2,24 +2,45 @@ import {sumColors} from "./Colors"
 import {newBoardData} from "./GameContext"
 import {generatePiece} from "./Pieces"
 import {boardHeight, boardWidth} from "./constants"
-import {BoardData, Chonk, ColorData, Coordinate, FallingPieceController, Piece} from "./types"
+import {BoardData, Chonk, ColorData, Coordinate, FallingPieceController, Piece, Pieces} from "./types"
 
 export const buildController = (
-    fallingPiece: Piece,
+    pieces: Pieces,
     board: BoardData,
-    setFallingPiece: (p: Piece) => void,
+    setPieces: (p: Pieces) => void,
     setBoard: (b: BoardData) => void
   ): FallingPieceController => {
+
+  const { fallingPiece, pieceQueue } = pieces
+
+  const commit = (piece: Piece) => {
+    setBoard(sumPieceAndBoard(piece, board))
+    const nextPiece = pieceQueue.shift() as Piece
+    setPieces({fallingPiece: nextPiece, pieceQueue: [...pieceQueue, generatePiece()] })
+  }
 
   const shiftDownOrCommit = () => {
     const newPiece = shiftDown(fallingPiece, board)
 
     if (newPiece.location.x == fallingPiece.location.x && newPiece.location.y == fallingPiece.location.y) {
-      setBoard(sumPieceAndBoard(fallingPiece, board))
-      setFallingPiece(generatePiece())
+      commit(newPiece)
     } else {
-      setFallingPiece(newPiece)
+      setPieces({...pieces, fallingPiece: newPiece})
     }
+  }
+
+  const setFallingPiece = (p: Piece): void => {
+    setPieces({...pieces, fallingPiece: p})
+  }
+
+  const dropAndCommit = () => {
+    let y = fallingPiece.location.y
+    let newPiece = shiftDown(fallingPiece, board)
+    while (newPiece.location.y != y) {
+      y = newPiece.location.y
+      newPiece = shiftDown(newPiece, board)
+    }
+    commit(newPiece)
   }
 
   return {
@@ -30,6 +51,7 @@ export const buildController = (
     shiftDown: shiftDownOrCommit,
     shiftLeft: () => setFallingPiece(shiftLeft(fallingPiece, board)),
     shiftRight: () => setFallingPiece(shiftRight(fallingPiece, board)),
+    drop: () => dropAndCommit(),
   }
 }
 
@@ -75,7 +97,7 @@ const rotateChonkLeft = (origin: Coordinate) => {
   )
 }
 
-const rotateChonkRed = (origin: Coordinate) => {
+const rotateChonkRed = (_: Coordinate) => {
   return (chonk: Chonk) => {
     let c = [...chonk.color] as ColorData
     c.push(c.shift() as boolean)
@@ -83,7 +105,7 @@ const rotateChonkRed = (origin: Coordinate) => {
   }
 }
 
-const rotateChonkBlue = (origin: Coordinate) => {
+const rotateChonkBlue = (_: Coordinate) => {
   return (chonk: Chonk) => {
     let c = [...chonk.color] as ColorData
     c.unshift(c.pop() as boolean)
@@ -97,6 +119,10 @@ const validateShift = (piece: Piece, board: BoardData) => {
     if (chonk.x < 0 || chonk.x >= boardWidth || chonk.y >= boardHeight) {
       return valid = false
     }
+    const zipped = board[chonk.y][chonk.x]
+      .map((v, i) => chonk.color[i] && v)
+    const overload = zipped.reduce((a, b) => a || b)
+    if (overload) { return valid = false }
   })
   return valid
 }

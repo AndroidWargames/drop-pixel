@@ -1,7 +1,6 @@
 import { BlockRow } from "./BlockRow"
 import { useEffect } from "react"
-import { boardWidth, boardHeight } from "./constants"
-import { black } from "./Colors"
+import { boardWidth } from "./constants"
 import { useGameContext } from "./GameContext"
 import {FallingPieceController} from "./types"
 
@@ -12,20 +11,20 @@ const style = {
 
 const executeCommand = (controller: FallingPieceController) => {
   const commands: Record<string, () => void> = {
-    a: controller.rotateLeft,
-    d: controller.rotateRight,
-    s: controller.rotateRed,
-    w: controller.rotateBlue,
+    KeyA: controller.rotateLeft,
+    KeyD: controller.rotateRight,
+    //s: controller.rotateRed,
+    //w: controller.rotateBlue,
+    Space: controller.drop,
     ArrowLeft: controller.shiftLeft,
     ArrowRight: controller.shiftRight,
     ArrowDown: controller.shiftDown,
   }
   return (event: KeyboardEvent) => {
-    if (Object.keys(commands).indexOf(event.key) >= 0) {
-      commands[event.key]()
+    if (Object.keys(commands).indexOf(event.code) >= 0) {
+      commands[event.code]()
     } else {
-      console.log(event.key)
-      console.log(Object.keys(commands))
+      console.log(event)
     }
   }
 }
@@ -35,7 +34,6 @@ export const Board = () => {
   const execute = executeCommand(fallingPieceController)
 
   useEffect(() => {
-    
     const handlekeydownEvent = (event: KeyboardEvent) => {
       execute(event)
     }

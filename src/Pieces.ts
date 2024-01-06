@@ -1,5 +1,4 @@
 import {blue, green, magenta, random, red} from "./Colors"
-import {boardHeight, boardWidth} from "./constants"
 import {Coordinate, Piece, PieceKind} from "./types"
 
 type PieceTemplate = {
@@ -16,11 +15,12 @@ export const generatePiece = (): Piece => {
 
 const generateSpecificPiece = (kind: PieceKind): Piece => {
   const template = pieceTemplates[kind]
+  const color = random()
   return {
     origin: template.origin,
     location: template.location,
     kind: kind,
-    chonks: template.chonkLocations.map((l) => ({ ...l, color: random()}))
+    chonks: template.chonkLocations.map((l) => ({ ...l, color}))
   }
 }
 
@@ -53,17 +53,17 @@ const pieceTemplates: Record<PieceKind, PieceTemplate> = {
       {x: 2, y: 0},
     ],
     origin: {x: 1, y: 1},
-    location: {x: 4, y: 0},
+    location: {x: 3, y: 0},
   },
   o: {
     chonkLocations: [
       {x: 0, y: 1},
       {x: 1, y: 1},
-      {x: 2, y: 1},
-      {x: 2, y: 0},
+      {x: 0, y: 0},
+      {x: 1, y: 0},
     ],
     origin: {x: 0.5, y: 0.5},
-    location: {x: 5, y: 0},
+    location: {x: 4, y: 0},
   },
   j: {
     chonkLocations: [
