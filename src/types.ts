@@ -15,7 +15,7 @@ export type BoardAssignment = Coordinate & {
 
 export type Chonk = BoardAssignment
 
-export type PieceKind = "s" | "z" | "i" | "j" | "l" | "o"
+export type PieceKind = "s" | "z" | "i" | "j" | "l" | "o" | "t"
 
 export type Piece = {
   chonks: Chonk[]

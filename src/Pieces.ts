@@ -7,8 +7,8 @@ type PieceTemplate = {
   location: Coordinate
 }
 
+export const allKinds = ["t", "s", "z", "i", "j", "l", "o"] as PieceKind[]
 export const generatePiece = (): Piece => {
-  const allKinds = ["s", "z", "i", "j", "l", "o"] as PieceKind[]
   const selected = allKinds[Math.floor(Math.random() * (allKinds.length))]
   return generateSpecificPiece(selected)
 }
@@ -81,6 +81,16 @@ const pieceTemplates: Record<PieceKind, PieceTemplate> = {
       {x: 0, y: 1},
       {x: 0, y: 2},
       {x: 0, y: 3},
+    ],
+    origin: {x: 0.5, y: 1.5},
+    location: {x: 5, y: 0},
+  },
+  t: {
+    chonkLocations: [
+      {x: 1, y: 0},
+      {x: 0, y: 1},
+      {x: 1, y: 1},
+      {x: 2, y: 1},
     ],
     origin: {x: 0.5, y: 1.5},
     location: {x: 5, y: 0},
