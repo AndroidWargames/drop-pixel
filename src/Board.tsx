@@ -2,11 +2,11 @@ import { BlockRow } from "./BlockRow"
 import { useEffect } from "react"
 import { boardWidth } from "./constants"
 import { useGameContext } from "./GameContext"
-import {FallingPieceController} from "./types"
+import { FallingPieceController } from "./types"
 
 const style = {
   display: "inline-grid",
-  gridTemplateColumns: Array(boardWidth).fill("auto").join(" ")
+  gridTemplateColumns: Array(boardWidth).fill("auto").join(" "),
 }
 
 const executeCommand = (controller: FallingPieceController) => {
@@ -34,23 +34,23 @@ export const Board = () => {
   const execute = executeCommand(fallingPieceController)
 
   useEffect(() => {
-  const interval = setInterval(fallingPieceController.shiftDown, 500);
+    const interval = setInterval(fallingPieceController.shiftDown, 500)
     const handlekeydownEvent = (event: KeyboardEvent) => {
       execute(event)
     }
 
-    document.addEventListener('keyup', handlekeydownEvent)
+    document.addEventListener("keyup", handlekeydownEvent)
     return () => {
-      document.removeEventListener('keyup', handlekeydownEvent)
+      document.removeEventListener("keyup", handlekeydownEvent)
       clearInterval(interval)
     }
   }, [fallingPieceController])
 
   return (
     <div style={style} className="Board">
-      
-      {board.map((row, i) => <BlockRow key={i} y={i} rowColors={row}/>)}
+      {board.map((row, i) => (
+        <BlockRow key={i} y={i} rowColors={row} />
+      ))}
     </div>
   )
 }
-

@@ -9,17 +9,15 @@ export const magenta: ColorData = [true, false, true]
 export const white: ColorData = [true, true, true]
 export const black: ColorData = [false, false, false]
 export const all = [red, green, blue, yellow, cyan, magenta, white, black]
-export const random = () => (
-  all[Math.floor(Math.random() * (3))]
-)
+export const random = () => all[Math.floor(Math.random() * 3)]
 
-const boolToHex = (b: boolean) => (
-  b ? "CC" : "44"
-)
+const boolToHex = (b: boolean) => (b ? "CC" : "44")
 
-export const colorToHex = (color: ColorData) => (
-  color.map((v) => boolToHex(v)).join("").padStart(7, "#")
-)
+export const colorToHex = (color: ColorData) =>
+  color
+    .map((v) => boolToHex(v))
+    .join("")
+    .padStart(7, "#")
 
 export const sumColors = (a: ColorData, b: ColorData) => {
   return a.map((x, i) => x || b[i]) as ColorData

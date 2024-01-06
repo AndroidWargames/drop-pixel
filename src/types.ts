@@ -39,4 +39,3 @@ export type FallingPieceController = {
   shiftDown: () => void
   drop: () => void
 }
-

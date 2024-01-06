@@ -7,9 +7,13 @@ type BlockProperties = {
   y: number
 }
 
-export const Block = ({color}: BlockProperties) => {
+export const Block = ({ color }: BlockProperties) => {
   const style = {
     backgroundColor: colorToHex(color),
   }
-  return <div style={style} className="Block"> </div>
+  return (
+    <div style={style} className="Block">
+      {" "}
+    </div>
+  )
 }
