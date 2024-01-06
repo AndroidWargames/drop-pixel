@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useState } from "react"
 import {BoardData, Pieces, FallingPieceController} from "./types"
 import { buildController, sumPieceAndBoard } from "./FallingPieceController"
 import {black} from "./Colors"
@@ -8,6 +8,7 @@ import {generatePiece} from "./Pieces"
 export type GameContextType = {
   board: BoardData
   fallingPieceController: FallingPieceController
+  pieces: Pieces
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined)
@@ -27,7 +28,9 @@ export const GameProvider = ({children}: {children: React.ReactNode}) => {
   const fallingPieceController = buildController(pieces, board, setPieces, setBoard)
 
   const value = {
-    board: sumPieceAndBoard(pieces.fallingPiece, board), fallingPieceController
+    board: sumPieceAndBoard(pieces.fallingPiece, board),
+    fallingPieceController,
+    pieces
   }
 
   return (

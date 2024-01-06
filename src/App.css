@@ -3,10 +3,16 @@
   height: 30px;
   padding: 0px;
   border-radius: 2px;
+  transition: background-color .1s ease;
 }
 
 .Board {
   background-color: #111;
   gap: 3px;
   padding: 5px;
+}
+
+body {
+  background-color: #111;
+  height: 100%;
 }

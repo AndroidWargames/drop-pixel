@@ -1,12 +1,16 @@
 import './App.css';
 import { Board } from './Board';
 import {GameProvider} from './GameContext';
+import {PieceQueue} from './PieceQueue';
 
 function App() {
   return (
-    <div className="App" >
+    <div className="App">
       <GameProvider>
-        <Board/>
+        <div style={{display: "flex", flexDirection: "row"}}>
+          <Board/>
+          <PieceQueue/>
+        </div>
       </GameProvider>
     </div>
   );
