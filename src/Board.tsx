@@ -34,6 +34,7 @@ export const Board = () => {
   const execute = executeCommand(fallingPieceController)
 
   useEffect(() => {
+  const interval = setInterval(fallingPieceController.shiftDown, 500);
     const handlekeydownEvent = (event: KeyboardEvent) => {
       execute(event)
     }
@@ -41,6 +42,7 @@ export const Board = () => {
     document.addEventListener('keyup', handlekeydownEvent)
     return () => {
       document.removeEventListener('keyup', handlekeydownEvent)
+      clearInterval(interval)
     }
   }, [fallingPieceController])
 
