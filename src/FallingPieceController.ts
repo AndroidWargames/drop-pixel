@@ -15,15 +15,9 @@ export const buildController = (
   pieces: Pieces,
   board: BoardData,
   setPieces: (p: Pieces) => void,
-  setBoard: (b: BoardData) => void,
-  generateNewPiece: () => void
+  commit: (p: Piece) => void,
 ): FallingPieceController => {
   const { fallingPiece } = pieces
-
-  const commit = (piece: Piece) => {
-    setBoard(sumPieceAndBoard(piece, board))
-    generateNewPiece()
-  }
 
   const shiftDownOrCommit = () => {
     const newPiece = shiftDown(fallingPiece, board)

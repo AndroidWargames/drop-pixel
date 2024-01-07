@@ -1,4 +1,4 @@
-import { blue, green, magenta, random, red } from "./Colors"
+import { blue, green, red } from "./Colors"
 import { ColorData, Coordinate, Piece, PieceKind } from "./types"
 
 type PieceTemplate = {

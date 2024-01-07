@@ -4,6 +4,7 @@ import { buildController, sumPieceAndBoard } from "./FallingPieceController"
 import { black, colorComponents } from "./Colors"
 import { boardHeight, boardWidth } from "./constants"
 import { PieceCounts, generatePiece, newPieceCounts } from "./Pieces"
+import { all } from "./reducers"
 
 export type GameContextType = {
   board: BoardData
@@ -47,12 +48,27 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
   })
   const [pieceCounts, setPieceCounts] = useState(newPieceCounts())
 
+  const commit = (piece: Piece) => {
+    let result = sumPieceAndBoard(piece, board)
+
+    for (let i = result.length - 1; i >= 0; i--) {
+      if (result[i].map((d) => d.reduce(all)).reduce(all)) {
+        result.splice(i, 1)
+      }
+    }
+    const rowCount = boardHeight - result.length
+    const newRows = Array.from({ length: rowCount }, () =>
+      Array.from({ length: boardWidth }, () => black))
+    result = [...newRows, ...result]
+    setBoard(result)
+    newPiece(pieces, setPieces, pieceCounts, setPieceCounts)
+  }
+
   const fallingPieceController = buildController(
     pieces,
     board,
     setPieces,
-    setBoard,
-    () => newPiece(pieces, setPieces, pieceCounts, setPieceCounts)
+    commit
   )
 
   const value = {
