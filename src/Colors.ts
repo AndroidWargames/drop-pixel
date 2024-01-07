@@ -22,3 +22,15 @@ export const colorToHex = (color: ColorData) =>
 export const sumColors = (a: ColorData, b: ColorData) => {
   return a.map((x, i) => x || b[i]) as ColorData
 }
+
+const initials = ["r", "g", "b"]
+
+export const colorComponents = (c: ColorData) => {
+  let out = [] as string[]
+  c.forEach((b, i) => {
+    if (b) {
+      out.push(initials[i])
+    }
+  })
+  return out
+}

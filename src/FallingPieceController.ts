@@ -1,6 +1,5 @@
 import { sumColors } from "./Colors"
 import { newBoardData } from "./GameContext"
-import { generatePiece } from "./Pieces"
 import { boardHeight, boardWidth } from "./constants"
 import {
   BoardData,
@@ -16,17 +15,14 @@ export const buildController = (
   pieces: Pieces,
   board: BoardData,
   setPieces: (p: Pieces) => void,
-  setBoard: (b: BoardData) => void
+  setBoard: (b: BoardData) => void,
+  generateNewPiece: () => void
 ): FallingPieceController => {
-  const { fallingPiece, pieceQueue } = pieces
+  const { fallingPiece } = pieces
 
   const commit = (piece: Piece) => {
     setBoard(sumPieceAndBoard(piece, board))
-    const nextPiece = pieceQueue.shift() as Piece
-    setPieces({
-      fallingPiece: nextPiece,
-      pieceQueue: [...pieceQueue, generatePiece()],
-    })
+    generateNewPiece()
   }
 
   const shiftDownOrCommit = () => {

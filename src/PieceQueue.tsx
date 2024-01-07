@@ -25,7 +25,6 @@ const pieceGrid = (pieces: Piece[]): BoardData => {
   )
   let maxY = 0
   pieces.forEach((piece) => {
-    console.log({ piece, data })
     piece.chonks.forEach((chonk) => {
       data[chonk.y + maxY][chonk.x] = chonk.color
     })
