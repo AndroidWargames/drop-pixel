@@ -1,7 +1,7 @@
 import "./App.css"
 import { Board } from "./Board"
 import { GameProvider } from "./GameContext"
-import { PieceQueue } from "./PieceQueue"
+import { SidePanel } from "./SidePanel"
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <GameProvider>
         <div style={{ display: "flex", flexDirection: "row" }}>
           <Board />
-          <PieceQueue />
+          <SidePanel />
         </div>
       </GameProvider>
     </div>

@@ -1,7 +1,7 @@
 import { useGameContext } from "./GameContext"
 import { BoardData, Piece } from "./types"
 import { black } from "./Colors"
-import { BlockRow } from "./BlockRow"
+import {Block} from "./Block"
 
 const style = {
   display: "inline-grid",
@@ -35,8 +35,14 @@ const pieceGrid = (pieces: Piece[]): BoardData => {
 
 const PieceDisplay = ({ pieces }: { pieces: Piece[] }) => (
   <div style={style} className="Board">
-    {pieceGrid(pieces).map((row, i) => (
-      <BlockRow key={i} y={i} rowColors={row} />
+    {pieceGrid(pieces).map((row, y) => (
+        row.map((color, x) => (
+          <Block
+            key={`${x}${y}`}
+            color={color}
+            outline={false}
+          />
+        ))
     ))}
   </div>
 )

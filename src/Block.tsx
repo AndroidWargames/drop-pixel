@@ -3,17 +3,17 @@ import { colorToHex } from "./Colors"
 
 type BlockProperties = {
   color: ColorData
-  x: number
-  y: number
+  outline: boolean
+  tinge?: ColorData
 }
 
-export const Block = ({ color }: BlockProperties) => {
+export const Block = ({ color, outline, tinge }: BlockProperties) => {
   const style = {
-    backgroundColor: colorToHex(color),
+    backgroundColor: colorToHex(color, tinge),
+    borderStyle: "solid",
+    borderColor: outline ? "#999" : "#111",
   }
   return (
-    <div style={style} className="Block">
-      {" "}
-    </div>
+    <div style={style} className="Block"/>
   )
 }

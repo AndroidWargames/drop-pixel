@@ -11,16 +11,33 @@ export const black: ColorData = [false, false, false]
 export const all = [red, green, blue, yellow, cyan, magenta, white, black]
 export const random = () => all[Math.floor(Math.random() * 3)]
 
-const boolToHex = (b: boolean) => (b ? "CC" : "44")
+const lit = "CC"
+const unlit = "33"
+const dim = "AA"
 
-export const colorToHex = (color: ColorData) =>
-  color
-    .map((v) => boolToHex(v))
-    .join("")
-    .padStart(7, "#")
+const boolToHex = (b: boolean) => (b ? lit : unlit)
+const tingedHex = (bools: boolean[]) => {
+  const [a, b] = bools
+  if (a) { return lit }
+  return (b ? dim : unlit)
+}
+
+export const colorToHex = (color: ColorData, tinge?: ColorData) => {
+  let c
+  if (tinge) {
+    c = color.map((v, i) => [v, tinge[i]]).map(tingedHex)
+  } else {
+    c = color.map((v) => boolToHex(v))
+  }
+  return c.join("").padStart(7, "#")
+}
 
 export const sumColors = (a: ColorData, b: ColorData) => {
   return a.map((x, i) => x || b[i]) as ColorData
+}
+
+export const filterColors = (a: ColorData, b: ColorData) => {
+  return a.map((x, i) => x && b[i]) as ColorData
 }
 
 const initials = ["r", "g", "b"]

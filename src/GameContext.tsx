@@ -1,15 +1,24 @@
 import { createContext, useContext, useState } from "react"
 import { BoardData, Pieces, FallingPieceController, Piece } from "./types"
-import { buildController, sumPieceAndBoard } from "./FallingPieceController"
+import {
+  buildController,
+  droppedPiece,
+  sumPieceAndBoard,
+} from "./FallingPieceController"
 import { black, colorComponents } from "./Colors"
 import { boardHeight, boardWidth } from "./constants"
 import { PieceCounts, generatePiece, newPieceCounts } from "./Pieces"
 import { all } from "./reducers"
+import { GameSettingsHandler, defaultGameSettings, newHandler } from "./GameSettings"
 
 export type GameContextType = {
   board: BoardData
   fallingPieceController: FallingPieceController
   pieces: Pieces
+  lines: number
+  score: number
+  ghostPiece: Piece
+  settings: GameSettingsHandler
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined)
@@ -47,6 +56,11 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     pieceQueue: [generatePiece(), generatePiece(), generatePiece()],
   })
   const [pieceCounts, setPieceCounts] = useState(newPieceCounts())
+  const [score, setScore] = useState(0)
+  const [lines, setLines] = useState(0)
+  const [gameSettings, setGameSettings] = useState(defaultGameSettings)
+
+  const settings = newHandler(gameSettings, setGameSettings)
 
   const commit = (piece: Piece) => {
     let result = sumPieceAndBoard(piece, board)
@@ -58,11 +72,18 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     }
     const rowCount = boardHeight - result.length
     const newRows = Array.from({ length: rowCount }, () =>
-      Array.from({ length: boardWidth }, () => black))
+      Array.from({ length: boardWidth }, () => black)
+    )
     result = [...newRows, ...result]
     setBoard(result)
+    if (rowCount > 0) {
+      setScore(score + 2 ** (rowCount - 1))
+    }
+    setLines(lines + rowCount)
     newPiece(pieces, setPieces, pieceCounts, setPieceCounts)
   }
+
+  const ghostPiece = droppedPiece(pieces.fallingPiece, board)
 
   const fallingPieceController = buildController(
     pieces,
@@ -75,6 +96,10 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     board: sumPieceAndBoard(pieces.fallingPiece, board),
     fallingPieceController,
     pieces,
+    lines,
+    score,
+    ghostPiece,
+    settings,
   }
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>

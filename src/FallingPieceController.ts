@@ -15,7 +15,7 @@ export const buildController = (
   pieces: Pieces,
   board: BoardData,
   setPieces: (p: Pieces) => void,
-  commit: (p: Piece) => void,
+  commit: (p: Piece) => void
 ): FallingPieceController => {
   const { fallingPiece } = pieces
 
@@ -37,13 +37,7 @@ export const buildController = (
   }
 
   const dropAndCommit = () => {
-    let y = fallingPiece.location.y
-    let newPiece = shiftDown(fallingPiece, board)
-    while (newPiece.location.y != y) {
-      y = newPiece.location.y
-      newPiece = shiftDown(newPiece, board)
-    }
-    commit(newPiece)
+    commit(droppedPiece(fallingPiece, board))
   }
 
   return {
@@ -56,6 +50,16 @@ export const buildController = (
     shiftRight: () => setFallingPiece(shiftRight(fallingPiece, board)),
     drop: () => dropAndCommit(),
   }
+}
+
+export const droppedPiece = (fallingPiece: Piece, board: BoardData) => {
+  let y = fallingPiece.location.y
+  let newPiece = shiftDown(fallingPiece, board)
+  while (newPiece.location.y != y) {
+    y = newPiece.location.y
+    newPiece = shiftDown(newPiece, board)
+  }
+  return newPiece
 }
 
 export const sumPieceAndBoard = (piece: Piece, board: BoardData) => {

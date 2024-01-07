@@ -1,18 +1,20 @@
-import { BlockRow } from "./BlockRow"
 import { useEffect } from "react"
-import { boardWidth } from "./constants"
 import { useGameContext } from "./GameContext"
 import { FallingPieceController } from "./types"
+import { absoluteChonks } from "./FallingPieceController"
+import { any } from "./reducers"
+import { Display } from "./Display"
+import { blue, green, red } from "./Colors"
+import { GameSettingsHandler } from "./GameSettings"
 
-const style = {
-  display: "inline-grid",
-  gridTemplateColumns: Array(boardWidth).fill("auto").join(" "),
-}
-
-const executeCommand = (controller: FallingPieceController) => {
+const executeCommand = (
+  controller: FallingPieceController,
+  settings: GameSettingsHandler
+) => {
   const commands: Record<string, () => void> = {
     KeyA: controller.rotateLeft,
     KeyD: controller.rotateRight,
+    KeyT: () => settings.setTriplex(!settings.triplex),
     //s: controller.rotateRed,
     //w: controller.rotateBlue,
     Space: controller.drop,
@@ -30,8 +32,16 @@ const executeCommand = (controller: FallingPieceController) => {
 }
 
 export const Board = () => {
-  const { board, fallingPieceController } = useGameContext()
-  const execute = executeCommand(fallingPieceController)
+  const { board, ghostPiece, fallingPieceController, settings } =
+    useGameContext()
+  const execute = executeCommand(fallingPieceController, settings)
+  const chonks = absoluteChonks(ghostPiece)
+  const outline = (x: number, y: number) =>
+    chonks.map((c) => c.x == x && c.y == y).reduce(any)
+  const tinge = (x: number, y: number) => {
+    const chonk = chonks.find((c) => c.x == x && c.y == y)
+    return chonk?.color
+  }
 
   useEffect(() => {
     const interval = setInterval(fallingPieceController.shiftDown, 500)
@@ -46,11 +56,21 @@ export const Board = () => {
     }
   }, [fallingPieceController])
 
-  return (
-    <div style={style} className="Board">
-      {board.map((row, i) => (
-        <BlockRow key={i} y={i} rowColors={row} />
-      ))}
-    </div>
-  )
+  if (settings.triplex) {
+    return (
+      <>
+        {[red, green, blue].map((filter, i) => (
+          <Display
+            board={board}
+            outline={outline}
+            tinge={tinge}
+            colorFilter={filter}
+            key={i}
+          />
+        ))}
+      </>
+    )
+  } else {
+    return <Display board={board} outline={outline} tinge={tinge} />
+  }
 }

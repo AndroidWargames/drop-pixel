@@ -3,10 +3,9 @@
   height: 30px;
   padding: 0px;
   border-radius: 2px;
-  transition: background-color .1s ease;
 }
 
-.Board {
+.Display {
   background-color: #111;
   gap: 3px;
   padding: 5px;
@@ -15,4 +14,27 @@
 body {
   background-color: #111;
   height: 100%;
+  font-family: monospace;
+}
+
+.Score {
+  color: #DDD;
+}
+
+.PieceQueue {
+  display: inline-grid;
+  grid-template-columns: "auto auto auto";
+  padding-left: 10px;
+  margin: 0px;
+}
+
+.SettingsButton {
+  border-style: solid;
+  border-color: #AAA;
+  padding: 3px;
+  margin: 5px;
+  color: #AAA;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
 }
