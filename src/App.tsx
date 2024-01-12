@@ -3,7 +3,7 @@ import { Board } from "./Board"
 import { GameProvider } from "./GameContext"
 import { SidePanel } from "./SidePanel"
 
-function App() {
+export const App = () => {
   return (
     <div className="App">
       <GameProvider>
@@ -15,5 +15,3 @@ function App() {
     </div>
   )
 }
-
-export default App
