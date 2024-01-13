@@ -7,7 +7,7 @@ export type GameSettingsHandler = GameSettings & {
 }
 
 export const defaultGameSettings = {
-  triplex: true
+  triplex: false
 }
 
 export const newHandler = (settings: GameSettings, setter: (s: GameSettings) => void): GameSettingsHandler => (

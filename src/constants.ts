@@ -1,2 +1,2 @@
-export const boardWidth = 10
-export const boardHeight = 20
+export const boardWidth = 8
+export const boardHeight = 16
