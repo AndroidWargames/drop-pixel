@@ -19,6 +19,8 @@ export type GameContextType = {
   score: number
   ghostPiece: Piece
   settings: GameSettingsHandler
+  nextTick: number
+  setNextTick: (n: number) => void
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined)
@@ -49,6 +51,14 @@ const newPiece = (
   })
 }
 
+export const getLevel = (lines: number) => {
+  return Math.floor(lines / 3)
+}
+
+export const getTimeOut = (lines: number) => {
+  return 1000 - getLevel(lines) * 75
+}
+
 export const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [board, setBoard] = useState<BoardData>(newBoardData())
   const [pieces, setPieces] = useState<Pieces>({
@@ -58,6 +68,7 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [pieceCounts, setPieceCounts] = useState(newPieceCounts())
   const [score, setScore] = useState(0)
   const [lines, setLines] = useState(0)
+  const [nextTick, setNextTick] = useState(Date.now() + getTimeOut(lines))
   const [gameSettings, setGameSettings] = useState(defaultGameSettings)
 
   const settings = newHandler(gameSettings, setGameSettings)
@@ -100,6 +111,8 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     score,
     ghostPiece,
     settings,
+    nextTick,
+    setNextTick
   }
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>

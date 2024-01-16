@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { useGameContext } from "./GameContext"
+import { getTimeOut, useGameContext } from "./GameContext"
 import { FallingPieceController } from "./types"
 import { absoluteChonks } from "./FallingPieceController"
 import { any } from "./reducers"
@@ -32,8 +32,15 @@ const executeCommand = (
 }
 
 export const Board = () => {
-  const { board, ghostPiece, fallingPieceController, settings } =
-    useGameContext()
+  const {
+    board,
+    ghostPiece,
+    fallingPieceController,
+    settings,
+    nextTick,
+    setNextTick,
+    lines,
+  } = useGameContext()
   const execute = executeCommand(fallingPieceController, settings)
   const chonks = absoluteChonks(ghostPiece)
   const outline = (x: number, y: number) =>
@@ -44,7 +51,6 @@ export const Board = () => {
   }
 
   useEffect(() => {
-    const interval = setInterval(fallingPieceController.shiftDown, 500)
     const handlekeydownEvent = (event: KeyboardEvent) => {
       execute(event)
     }
@@ -52,9 +58,22 @@ export const Board = () => {
     document.addEventListener("keyup", handlekeydownEvent)
     return () => {
       document.removeEventListener("keyup", handlekeydownEvent)
-      clearInterval(interval)
     }
   }, [fallingPieceController])
+
+  useEffect(() => {
+    const tick = (tick: number) => {
+      return () => {
+        setNextTick(tick + getTimeOut(lines))
+        fallingPieceController.shiftDown()
+      }
+    }
+    const to = setTimeout(tick(nextTick), nextTick - Date.now())
+
+    return () => {
+      clearTimeout(to)
+    }
+  }, [board])
 
   if (settings.triplex) {
     return (
