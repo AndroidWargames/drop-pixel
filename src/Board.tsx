@@ -12,11 +12,8 @@ const executeCommand = (
   settings: GameSettingsHandler
 ) => {
   const commands: Record<string, () => void> = {
-    KeyA: controller.rotateLeft,
-    KeyD: controller.rotateRight,
+    ArrowUp: controller.rotateLeft,
     KeyT: () => settings.setTriplex(!settings.triplex),
-    //s: controller.rotateRed,
-    //w: controller.rotateBlue,
     Space: controller.drop,
     ArrowLeft: controller.shiftLeft,
     ArrowRight: controller.shiftRight,

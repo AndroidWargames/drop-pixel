@@ -5,6 +5,10 @@
   border-radius: 2px;
 }
 
+.App {
+  justify-content: center;
+}
+
 .Display {
   background-color: #111;
   gap: 3px;
@@ -17,14 +21,22 @@ body {
   font-family: monospace;
 }
 
+.SidePanel {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
 .Score {
   color: #DDD;
+  text-align: center;
 }
 
 .PieceQueue {
   display: inline-grid;
   grid-template-columns: "auto auto auto";
   padding-left: 10px;
+  margin-top: 10px;
   margin: 0px;
 }
 
