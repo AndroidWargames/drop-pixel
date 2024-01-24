@@ -22,7 +22,26 @@ const tingedHex = (bools: boolean[]) => {
   return (b ? dim : unlit)
 }
 
-export const colorToHex = (color: ColorData, tinge?: ColorData) => {
+export const subtractiveColorToHex = (color: ColorData, tinge?: ColorData) => {
+  const [r, y, b] = sumColors(color, tinge ?? [false, false, false])
+    if (r && y && b)
+      return "#333333"
+    if (r && y)
+      return "#CC8833"
+    if (r && b)
+      return "#8833AA"
+    if (y && b)
+      return "#33AA33"
+    if (y)
+      return "#CCCC33"
+    if (r)
+      return "#EE3344"
+    if (b)
+      return "#4466DD"
+    return "#CCCCCC"
+}
+
+export const additiveColorToHex = (color: ColorData, tinge?: ColorData) => {
   let c
   if (tinge) {
     c = color.map((v, i) => [v, tinge[i]]).map(tingedHex)

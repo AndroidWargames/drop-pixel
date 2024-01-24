@@ -2,16 +2,24 @@ import { useGameContext } from "./GameContext"
 
 export const Settings = () => {
   const {
-    settings: { triplex, setTriplex },
+    settings: { triplex, setTriplex, additiveColor, setAdditiveColor },
   } = useGameContext()
 
-  const toggle = () => {
+  const toggleTriplex = () => {
     setTriplex(!triplex)
   }
+
+  const toggleColor = () => {
+    setAdditiveColor(!additiveColor)
+  }
+
   return (
     <div className="Settings">
-      <div className="SettingsButton" onClick={toggle}>
-        Triplex
+      <div className="SettingsButton" onClick={toggleTriplex}>
+        {!triplex ? "Triplex" : "Untriplex"}
+      </div>
+      <div className="SettingsButton" onClick={toggleColor}>
+        Use {additiveColor ? "Additive" : "Subtractive"} Color
       </div>
     </div>
   )

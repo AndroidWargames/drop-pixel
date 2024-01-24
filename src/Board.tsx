@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { getTimeOut, useGameContext } from "./GameContext"
 import { FallingPieceController } from "./types"
 import { absoluteChonks } from "./FallingPieceController"
@@ -14,6 +14,7 @@ const executeCommand = (
   const commands: Record<string, () => void> = {
     ArrowUp: controller.rotateLeft,
     KeyT: () => settings.setTriplex(!settings.triplex),
+    KeyC: () => settings.setAdditiveColor(!settings.additiveColor),
     Space: controller.drop,
     ArrowLeft: controller.shiftLeft,
     ArrowRight: controller.shiftRight,
@@ -72,9 +73,13 @@ export const Board = () => {
     }
   }, [board])
 
+  const style = {
+    backgroundColor: settings.additiveColor ? "#333333" : "#CCCCCC",
+  }
+
   if (settings.triplex) {
     return (
-      <>
+      <div style={style}>
         {[red, green, blue].map((filter, i) => (
           <Display
             board={board}
@@ -84,9 +89,13 @@ export const Board = () => {
             key={i}
           />
         ))}
-      </>
+      </div>
     )
   } else {
-    return <Display board={board} outline={outline} tinge={tinge} />
+    return (
+      <div style={style}>
+        <Display board={board} outline={outline} tinge={tinge} />
+      </div>
+    )
   }
 }

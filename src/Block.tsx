@@ -1,5 +1,6 @@
 import { ColorData } from "./types"
-import { colorToHex } from "./Colors"
+import { additiveColorToHex, subtractiveColorToHex } from "./Colors"
+import { useGameContext } from "./GameContext"
 
 type BlockProperties = {
   color: ColorData
@@ -8,12 +9,14 @@ type BlockProperties = {
 }
 
 export const Block = ({ color, outline, tinge }: BlockProperties) => {
+  const { settings } = useGameContext()
+
+  const colorToHex = settings.additiveColor ? additiveColorToHex : subtractiveColorToHex
+
   const style = {
     backgroundColor: colorToHex(color, tinge),
     borderStyle: "solid",
     borderColor: outline ? "#999" : "#111",
   }
-  return (
-    <div style={style} className="Block"/>
-  )
+  return <div style={style} className="Block" />
 }

@@ -16,7 +16,6 @@
 }
 
 body {
-  background-color: #111;
   height: 100%;
   font-family: monospace;
 }
@@ -37,7 +36,7 @@ body {
   grid-template-columns: "auto auto auto";
   padding-left: 10px;
   margin-top: 10px;
-  margin: 0px;
+  gap: 3px;
 }
 
 .SettingsButton {
