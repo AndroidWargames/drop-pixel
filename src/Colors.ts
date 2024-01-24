@@ -13,10 +13,12 @@ export const random = () => all[Math.floor(Math.random() * 3)]
 
 const lit = "CC"
 const unlit = "33"
-const dim = "AA"
 
 const boolToHex = (b: boolean) => (b ? lit : unlit)
-const tingedHex = (bools: boolean[]) => {
+const tingedHex = (bools: boolean[], opacity: number) => {
+  const floor = parseInt("33", 16)
+  const ceiling = parseInt("CC", 16)
+  const dim = Math.floor((ceiling - floor) * opacity ** 0.7 + floor).toString(16)
   const [a, b] = bools
   if (a) { return lit }
   return (b ? dim : unlit)
@@ -41,10 +43,10 @@ export const subtractiveColorToHex = (color: ColorData, tinge?: ColorData) => {
     return "#CCCCCC"
 }
 
-export const additiveColorToHex = (color: ColorData, tinge?: ColorData) => {
+export const additiveColorToHex = (color: ColorData, tinge?: ColorData, opacity?: number) => {
   let c
   if (tinge) {
-    c = color.map((v, i) => [v, tinge[i]]).map(tingedHex)
+    c = color.map((v, i) => [v, tinge[i]]).map((b) => tingedHex(b, opacity ?? 1))
   } else {
     c = color.map((v) => boolToHex(v))
   }

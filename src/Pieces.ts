@@ -42,7 +42,6 @@ const getPieceType = (counts: Record<string, number>): PieceType => {
   const choose = Math.random() * sum
   let i = 0
   let acc = 0.0
-  if (sum != 21) { console.log({sum})} 
   while (acc < choose) {
     acc += inverses[i]
     i += 1

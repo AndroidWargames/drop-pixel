@@ -9,7 +9,11 @@ import { black, colorComponents } from "./Colors"
 import { boardHeight, boardWidth } from "./constants"
 import { PieceCounts, generatePiece, newPieceCounts } from "./Pieces"
 import { all } from "./reducers"
-import { GameSettingsHandler, defaultGameSettings, newHandler } from "./GameSettings"
+import {
+  GameSettingsHandler,
+  defaultGameSettings,
+  newHandler,
+} from "./GameSettings"
 
 export type GameContextType = {
   board: BoardData
@@ -21,6 +25,7 @@ export type GameContextType = {
   settings: GameSettingsHandler
   nextTick: number
   setNextTick: (n: number) => void
+  resetGame: () => void
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined)
@@ -94,6 +99,16 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     newPiece(pieces, setPieces, pieceCounts, setPieceCounts)
   }
 
+  const resetGame = () => {
+    setBoard(newBoardData)
+    setLines(0)
+    setScore(0)
+    setPieces({
+      fallingPiece: generatePiece(),
+      pieceQueue: [generatePiece(), generatePiece(), generatePiece()],
+    })
+  }
+
   const ghostPiece = droppedPiece(pieces.fallingPiece, board)
 
   const fallingPieceController = buildController(
@@ -112,7 +127,8 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     ghostPiece,
     settings,
     nextTick,
-    setNextTick
+    resetGame,
+    setNextTick,
   }
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>

@@ -19,7 +19,7 @@ export const Settings = () => {
         {!triplex ? "Triplex" : "Untriplex"}
       </div>
       <div className="SettingsButton" onClick={toggleColor}>
-        Use {additiveColor ? "Additive" : "Subtractive"} Color
+        {additiveColor ? "Additive" : "Subtractive"} Color
       </div>
     </div>
   )

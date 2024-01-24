@@ -1,6 +1,7 @@
 import { ColorData } from "./types"
 import { additiveColorToHex, subtractiveColorToHex } from "./Colors"
 import { useGameContext } from "./GameContext"
+import { boardHeight } from "./constants"
 
 type BlockProperties = {
   color: ColorData
@@ -9,12 +10,17 @@ type BlockProperties = {
 }
 
 export const Block = ({ color, outline, tinge }: BlockProperties) => {
-  const { settings } = useGameContext()
+  const { settings, ghostPiece, pieces } = useGameContext()
 
-  const colorToHex = settings.additiveColor ? additiveColorToHex : subtractiveColorToHex
+  const colorToHex = settings.additiveColor
+    ? additiveColorToHex
+    : subtractiveColorToHex
+  const opacity =
+    ((ghostPiece.location.y - pieces.fallingPiece.location.y) * 1.0) /
+    boardHeight
 
   const style = {
-    backgroundColor: colorToHex(color, tinge),
+    backgroundColor: colorToHex(color, tinge, opacity),
     borderStyle: "solid",
     borderColor: outline ? "#999" : "#111",
   }
