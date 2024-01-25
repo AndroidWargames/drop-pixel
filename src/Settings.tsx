@@ -1,3 +1,4 @@
+import { B } from "./B"
 import { useGameContext } from "./GameContext"
 
 export const Settings = () => {
@@ -16,10 +17,10 @@ export const Settings = () => {
   return (
     <div className="Settings">
       <div className="SettingsButton" onClick={toggleTriplex}>
-        {!triplex ? "Triplex" : "Untriplex"}
+        <B>T</B>oggle <B>T</B>riplex
       </div>
       <div className="SettingsButton" onClick={toggleColor}>
-        {additiveColor ? "Additive" : "Subtractive"} Color
+        {additiveColor ? "Additive" : "Subtractive"} <B>C</B>olor
       </div>
     </div>
   )

@@ -21,6 +21,11 @@ body {
   font-family: monospace;
 }
 
+.bold {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 .SidePanel {
   display: flex;
   flex-direction: column;
