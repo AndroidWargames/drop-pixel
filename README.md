@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# DropPixel
+A reimplementation of tetris, and the first (and perhaps only) in a set of games that tries to encode color space as a 3rd dimension in classic 2-D games
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Getting started
+`npm start` will do it. I don't use docker for dev, but expect to deploy it eventaully, it'll run on localhost:3000
 
-## Available Scripts
 
-In the project directory, you can run:
+## Playing
 
-### `npm start`
+### Gameplay
+- Fill a row with all white squares to eliminate a row
+- The tetrominoes fall in the 3 primary colors (for computers), Red, Green, and Blue
+- These primary colors mix together in what might be an unintuitive way
+  - Red and Green make Yellow
+  - Blue and Green make Cyan
+  - Red and Blue make Magenta
+  - Red, Blue and Green make White
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Controls
+- Arrow keys move
+- Up arrow rotates
+- Space quick-drops the piece
+- P pauses and unpauses the game
+- T sets and unsets triplex (read: easy) mode
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Other notes:
+This project results less in an entertaining game, and more a sort neat prodding of the limits of human perception and the brain's capacity for information encoding.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Todo
+- make the game end
+- make a startup screen (and maybe a thin routing layer to navigate screens)
+- put settings on their own screen in the pause menu
+- put it on the internet
+- keep a user's high score
+- tune the pacing of the game, it feels a little slow at first
+- re-introduce s and z tiles (maybe, I still never liked them)
