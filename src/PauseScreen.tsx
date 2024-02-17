@@ -1,30 +1,30 @@
 import { useEffect } from "react"
 import { useGameContext } from "./GameContext"
-import {B} from "./B"
+import { B } from "./B"
+import { TriplexToggle } from "./TriplexToggle"
+import { ColorToggle } from "./ColorToggle"
 
-type Props = {
-  setPaused: (b: boolean) => void
-}
+export const PauseScreen = () => {
+  const { resetGame, settings } = useGameContext()
 
-export const PauseScreen = ({ setPaused }: Props) => {
-  const { resetGame } = useGameContext()
   const unpause = () => {
-    setPaused(false)
+    if (settings.paused) settings.setPaused(false)
   }
 
   const restart = () => {
-    resetGame()
-    unpause()
+    if (settings.paused) {
+      resetGame()
+      unpause()
+    }
   }
 
   useEffect(() => {
     const handlekeydownEvent = (event: KeyboardEvent) => {
       const commands: Record<string, () => void> = {
-        KeyP: unpause,
         KeyR: restart,
       }
 
-      if (Object.keys(commands).indexOf(event.code) >= 0) {
+      if (Object.keys(commands).indexOf(event.code) >= 0 && settings.paused) {
         commands[event.code]()
       }
     }
@@ -33,7 +33,10 @@ export const PauseScreen = ({ setPaused }: Props) => {
     return () => {
       document.removeEventListener("keyup", handlekeydownEvent)
     }
-  }, [])
+  }, [settings.paused])
+
+
+  if (!settings.paused) return null
 
   return (
     <div
@@ -41,6 +44,7 @@ export const PauseScreen = ({ setPaused }: Props) => {
         display: "grid",
         gridTemplateRows: "1fr auto 1fr",
         height: "100vh",
+        position: "fixed",
       }}
     >
       <div />
@@ -48,6 +52,8 @@ export const PauseScreen = ({ setPaused }: Props) => {
         <div className="SettingsButton" onClick={unpause}>
           Un<B>p</B>ause
         </div>
+        <TriplexToggle />
+        <ColorToggle />
         <div className="SettingsButton" onClick={restart}>
           <B>R</B>estart Game
         </div>

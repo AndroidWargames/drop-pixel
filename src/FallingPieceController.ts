@@ -15,11 +15,13 @@ export const buildController = (
   pieces: Pieces,
   board: BoardData,
   setPieces: (p: Pieces) => void,
+  paused: boolean,
   commit: (p: Piece) => void
 ): FallingPieceController => {
   const { fallingPiece } = pieces
 
   const shiftDownOrCommit = () => {
+    if (paused) return
     const newPiece = shiftDown(fallingPiece, board)
 
     if (
@@ -33,10 +35,12 @@ export const buildController = (
   }
 
   const setFallingPiece = (p: Piece): void => {
+    if (paused) return
     setPieces({ ...pieces, fallingPiece: p })
   }
 
   const dropAndCommit = () => {
+    if (paused) return
     commit(droppedPiece(fallingPiece, board))
   }
 

@@ -115,6 +115,7 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     pieces,
     board,
     setPieces,
+    settings.paused,
     commit
   )
 

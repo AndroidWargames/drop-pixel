@@ -1,6 +1,5 @@
 import { PieceQueue } from "./PieceQueue"
 import { Score } from "./Score"
-import { Settings } from "./Settings"
 
 export const SidePanel = () => {
   return (
@@ -8,7 +7,6 @@ export const SidePanel = () => {
       <PieceQueue />
       <div style={{ flex: 1 }} />
       <Score />
-      <Settings />
     </div>
   )
 }

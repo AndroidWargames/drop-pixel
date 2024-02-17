@@ -48,8 +48,9 @@ body {
 .SettingsButton {
   border-style: solid;
   border-color: #AAA;
-  padding: 3px;
-  margin: 5px;
+  background-color: #000;
+  padding: 5px;
+  margin: 10px;
   color: #AAA;
   text-align: center;
   cursor: pointer;

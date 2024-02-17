@@ -10,14 +10,12 @@ import { GameSettingsHandler } from "./GameSettings"
 const executeCommand = (
   controller: FallingPieceController,
   settings: GameSettingsHandler,
-  paused: boolean,
-  setPaused: (b: boolean) => void
 ) => {
   const commands: Record<string, () => void> = {
     ArrowUp: controller.rotateLeft,
     KeyT: () => settings.setTriplex(!settings.triplex),
     KeyC: () => settings.setAdditiveColor(!settings.additiveColor),
-    KeyP: () => setPaused(!paused),
+    KeyP: () => settings.setPaused(!settings.paused),
     Space: controller.drop,
     ArrowLeft: controller.shiftLeft,
     ArrowRight: controller.shiftRight,
@@ -32,12 +30,7 @@ const executeCommand = (
   }
 }
 
-type Props = {
-  paused: boolean
-  setPaused: (b: boolean) => void
-}
-
-export const Board = ({ paused, setPaused }: Props) => {
+export const Board = () => {
   const {
     board,
     ghostPiece,
@@ -47,7 +40,7 @@ export const Board = ({ paused, setPaused }: Props) => {
     setNextTick,
     lines,
   } = useGameContext()
-  const execute = executeCommand(fallingPieceController, settings, paused, setPaused)
+  const execute = executeCommand(fallingPieceController, settings)
   const chonks = absoluteChonks(ghostPiece)
   const outline = (x: number, y: number) =>
     chonks.map((c) => c.x == x && c.y == y).reduce(any)
@@ -75,12 +68,12 @@ export const Board = ({ paused, setPaused }: Props) => {
         fallingPieceController.shiftDown()
       }
     }
-    let to = setTimeout(tick(nextTick), nextTick - Date.now())
+    let to = settings.paused ? 99999999999 : setTimeout(tick(nextTick), nextTick - Date.now())
 
     return () => {
       clearTimeout(to)
     }
-  }, [board, paused])
+  }, [board, settings.paused])
 
   const style = {
     backgroundColor: settings.additiveColor ? "#333333" : "#CCCCCC",

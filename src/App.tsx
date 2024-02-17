@@ -6,7 +6,6 @@ import { SidePanel } from "./SidePanel"
 import { useState } from "react"
 
 export const App = () => {
-  const [paused, setPaused] = useState(false)
   return (
     <div className="App">
       <GameProvider>
@@ -17,13 +16,9 @@ export const App = () => {
             flexDirection: "row",
           }}
         >
-          {!paused && (
-            <>
-              <Board paused={paused} setPaused={setPaused} />
-              <SidePanel />
-            </>
-          )}
-          {paused && <PauseScreen setPaused={setPaused} />}
+          <Board />
+          <SidePanel />
+          <PauseScreen />
         </div>
       </GameProvider>
     </div>

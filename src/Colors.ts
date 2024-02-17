@@ -40,7 +40,7 @@ export const subtractiveColorToHex = (color: ColorData, tinge?: ColorData) => {
       return "#EE3344"
     if (b)
       return "#4466DD"
-    return "#CCCCCC"
+    return "#BBBBBB"
 }
 
 export const additiveColorToHex = (color: ColorData, tinge?: ColorData, opacity?: number) => {
