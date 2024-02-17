@@ -57,3 +57,14 @@ body {
   cursor: pointer;
   user-select: none;
 }
+
+.SettingsHeader {
+  font-size: 2em;
+  font-weight: bold;
+  padding: 5px;
+  margin: 10px;
+  margin-top: 0px;
+  color: #AAA;
+  text-align: center;
+  user-select: none;
+}

@@ -4,6 +4,7 @@ import { B } from "./B"
 import { TriplexToggle } from "./TriplexToggle"
 import { ColorToggle } from "./ColorToggle"
 import { SettingsButton } from "./SettingsButton"
+import {SettingsHeader} from "./SettingsHeader"
 
 export const PauseScreen = () => {
   const { resetGame, settings } = useGameContext()
@@ -52,7 +53,13 @@ export const PauseScreen = () => {
       }}
     >
       <div />
-      <div>
+      <div
+        style={{
+          padding: "20px",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+        }}
+      >
+        <SettingsHeader text="PAUSED"/>
         <SettingsButton onClick={unpause}>
           Un<B>p</B>ause
         </SettingsButton>

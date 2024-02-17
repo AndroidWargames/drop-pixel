@@ -9,7 +9,7 @@ import { GameSettingsHandler } from "./GameSettings"
 
 const executeCommand = (
   controller: FallingPieceController,
-  settings: GameSettingsHandler,
+  settings: GameSettingsHandler
 ) => {
   const commands: Record<string, () => void> = {
     ArrowUp: controller.rotateLeft,
@@ -24,8 +24,6 @@ const executeCommand = (
   return (event: KeyboardEvent) => {
     if (Object.keys(commands).indexOf(event.code) >= 0) {
       commands[event.code]()
-    } else {
-      console.log(event)
     }
   }
 }
@@ -68,7 +66,9 @@ export const Board = () => {
         fallingPieceController.shiftDown()
       }
     }
-    let to = settings.paused ? 99999999999 : setTimeout(tick(nextTick), nextTick - Date.now())
+    let to = settings.paused
+      ? 99999999999
+      : setTimeout(tick(nextTick), nextTick - Date.now())
 
     return () => {
       clearTimeout(to)
