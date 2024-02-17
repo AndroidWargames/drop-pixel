@@ -1,5 +1,6 @@
 import { B } from "./B"
 import { useGameContext } from "./GameContext"
+import { SettingsButton } from "./SettingsButton"
 
 export const TriplexToggle = () => {
   const {
@@ -11,8 +12,8 @@ export const TriplexToggle = () => {
   }
 
   return (
-    <div className="SettingsButton" onClick={toggleTriplex}>
+    <SettingsButton onClick={toggleTriplex}>
       <B>T</B>oggle <B>T</B>riplex
-    </div>
+    </SettingsButton>
   )
 }

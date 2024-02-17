@@ -7,7 +7,7 @@ const style = {
   display: "inline-grid",
   gridTemplateColumns: Array(3).fill("auto").join(" "),
   paddingLeft: "10px",
-  margin: "0px",
+  gap: "3px",
 }
 
 const pieceHeight = (piece: Piece): number => {

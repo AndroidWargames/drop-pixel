@@ -1,7 +1,8 @@
 import { B } from "./B"
 import { useGameContext } from "./GameContext"
+import { SettingsButton } from "./SettingsButton"
 
-export const ColorToggle = () => {
+export const PauseButton = () => {
   const {
     settings: { paused, setPaused },
   } = useGameContext()
@@ -10,9 +11,10 @@ export const ColorToggle = () => {
     setPaused(!paused)
   }
 
+  if (paused) return null
   return (
-    <div className="SettingsButton" onClick={togglePaused}>
-      Un<B>p</B>ause
-    </div>
+    <SettingsButton onClick={togglePaused}>
+      <B>P</B>ause
+    </SettingsButton>
   )
 }

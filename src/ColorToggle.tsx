@@ -1,5 +1,6 @@
 import { B } from "./B"
 import { useGameContext } from "./GameContext"
+import { SettingsButton } from "./SettingsButton"
 
 export const ColorToggle = () => {
   const {
@@ -11,8 +12,8 @@ export const ColorToggle = () => {
   }
 
   return (
-    <div className="SettingsButton" onClick={toggleColor}>
+    <SettingsButton onClick={toggleColor}>
       {additiveColor ? "Additive" : "Subtractive"} <B>C</B>olor
-    </div>
+    </SettingsButton>
   )
 }

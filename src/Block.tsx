@@ -22,6 +22,7 @@ export const Block = ({ color, outline, tinge }: BlockProperties) => {
   const style = {
     backgroundColor: colorToHex(color, tinge, opacity),
     borderStyle: "solid",
+    borderWidth: "1px",
     borderColor: outline ? "#999" : "#111",
   }
   return <div style={style} className="Block" />
