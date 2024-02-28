@@ -1,26 +1,18 @@
 import { useEffect } from "react"
 import { useGameContext } from "./GameContext"
 import { B } from "./B"
-import { TriplexToggle } from "./TriplexToggle"
-import { ColorToggle } from "./ColorToggle"
 import { SettingsButton } from "./SettingsButton"
 import { SettingsHeader } from "./SettingsHeader"
 import { DarkenedOverlay } from "./DarkenedOverlay"
 
-export const PauseScreen = () => {
-  const { resetGame, settings } = useGameContext()
-
-  const unpause = () => {
-    settings.setPaused(false)
-  }
+export const GameOverScreen = () => {
+  const { resetGame, settings, gameOver, score, highScore, lines } = useGameContext()
 
   const restart = () => {
     resetGame()
-    unpause()
   }
 
   const exit = () => {
-    unpause()
     settings.setView("menu")
   }
 
@@ -29,10 +21,10 @@ export const PauseScreen = () => {
       const commands: Record<string, () => void> = {
         KeyR: restart,
         KeyQ: exit,
-        Escape: unpause,
+        Escape: exit,
       }
 
-      if (Object.keys(commands).indexOf(event.code) >= 0 && settings.paused) {
+      if (Object.keys(commands).indexOf(event.code) >= 0 && gameOver) {
         commands[event.code]()
       }
     }
@@ -41,18 +33,17 @@ export const PauseScreen = () => {
     return () => {
       document.removeEventListener("keyup", handlekeydownEvent)
     }
-  }, [settings.paused])
+  }, [gameOver])
 
-  if (!settings.paused) return null
+  if (!gameOver) return null
+  const style = highScore == score ? {color: "#DDDD00"} : {}
 
   return (
     <DarkenedOverlay>
-      <SettingsHeader text="PAUSED" />
-      <SettingsButton onClick={unpause}>
-        Un<B>p</B>ause
-      </SettingsButton>
-      <TriplexToggle />
-      <ColorToggle />
+      <SettingsHeader text="GAME OVER" />
+      <div className="tutorialText" style={style}>High Score!</div>
+      <div className="tutorialText" style={style}>Score: {score}</div>
+      <div className="tutorialText" style={style}>Lines: {lines}</div>
       <SettingsButton onClick={restart}>
         <B>R</B>estart Game
       </SettingsButton>

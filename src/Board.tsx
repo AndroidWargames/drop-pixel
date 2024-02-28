@@ -37,6 +37,7 @@ export const Board = () => {
     nextTick,
     setNextTick,
     lines,
+    gameOver,
   } = useGameContext()
   const execute = executeCommand(fallingPieceController, settings)
   const chonks = absoluteChonks(ghostPiece)
@@ -66,14 +67,14 @@ export const Board = () => {
         fallingPieceController.shiftDown()
       }
     }
-    let to = settings.paused
+    let to = settings.paused || gameOver
       ? 99999999999
       : setTimeout(tick(nextTick), nextTick - Date.now())
 
     return () => {
       clearTimeout(to)
     }
-  }, [board, settings.paused])
+  }, [board, settings.paused, gameOver])
 
   const style = {
     backgroundColor: settings.additiveColor ? "#333333" : "#CCCCCC",

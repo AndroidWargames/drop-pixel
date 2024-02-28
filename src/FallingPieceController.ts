@@ -125,7 +125,7 @@ const rotateChonkBlue = (_: Coordinate) => {
   }
 }
 
-const validateShift = (piece: Piece, board: BoardData) => {
+export const validateShift = (piece: Piece, board: BoardData) => {
   let valid = true
   absoluteChonks(piece).forEach((chonk) => {
     if (chonk.x < 0 || chonk.x >= boardWidth || chonk.y >= boardHeight) {

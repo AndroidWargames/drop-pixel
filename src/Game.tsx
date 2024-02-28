@@ -1,5 +1,6 @@
 import "./App.css"
 import { Board } from "./Board"
+import {GameOverScreen} from "./GameOverScreen"
 import { PauseScreen } from "./PauseScreen"
 import { SidePanel } from "./SidePanel"
 
@@ -15,6 +16,7 @@ export const Game = () => {
       <Board />
       <SidePanel />
       <PauseScreen />
+      <GameOverScreen />
     </div>
   )
 }

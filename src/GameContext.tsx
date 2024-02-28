@@ -4,6 +4,7 @@ import {
   buildController,
   droppedPiece,
   sumPieceAndBoard,
+  validateShift,
 } from "./FallingPieceController"
 import { black, colorComponents } from "./Colors"
 import { boardHeight, boardWidth } from "./constants"
@@ -27,6 +28,7 @@ export type GameContextType = {
   setNextTick: (n: number) => void
   resetGame: () => void
   highScore: number
+  gameOver: boolean
 }
 
 const highScoreStorageLabel = "drop-pixel.high-score"
@@ -41,9 +43,11 @@ const newPiece = (
   pieces: Pieces,
   setPieces: (p: Pieces) => void,
   pieceCounts: PieceCounts,
-  setPieceCounts: (p: PieceCounts) => void
+  setPieceCounts: (p: PieceCounts) => void,
+  detectEndedGame: (p: Piece) => void
 ) => {
   const nextPiece = pieces.pieceQueue.shift() as Piece
+  detectEndedGame(nextPiece)
   const generatedPiece = generatePiece(pieceCounts)
   let newPieceCounts = { ...pieceCounts }
   generatedPiece.chonks.forEach((chonk) => {
@@ -72,6 +76,7 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     fallingPiece: generatePiece(),
     pieceQueue: [generatePiece(), generatePiece(), generatePiece()],
   })
+  const [gameOver, setGameOver] = useState(false)
   const [pieceCounts, setPieceCounts] = useState(newPieceCounts())
   const [score, setScore] = useState(0)
   const [lines, setLines] = useState(0)
@@ -87,6 +92,12 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const settings = newHandler(gameSettings, setGameSettings)
+
+  const detectEndedGame = (piece: Piece) => {
+    if (!validateShift(piece, board)) {
+      setGameOver(true)
+    }
+  }
 
   const commit = (piece: Piece) => {
     let result = sumPieceAndBoard(piece, board)
@@ -106,11 +117,12 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
       updateScore(score + 2 ** (rowCount - 1))
     }
     setLines(lines + rowCount)
-    newPiece(pieces, setPieces, pieceCounts, setPieceCounts)
+    newPiece(pieces, setPieces, pieceCounts, setPieceCounts, detectEndedGame)
   }
 
   const resetGame = () => {
     setBoard(newBoardData)
+    setGameOver(false)
     setLines(0)
     setScore(0)
     setPieces({
@@ -141,6 +153,7 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     resetGame,
     setNextTick,
     highScore,
+    gameOver,
   }
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>
