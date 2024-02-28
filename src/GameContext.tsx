@@ -26,8 +26,10 @@ export type GameContextType = {
   nextTick: number
   setNextTick: (n: number) => void
   resetGame: () => void
+  highScore: number
 }
 
+const highScoreStorageLabel = "drop-pixel.high-score"
 const GameContext = createContext<GameContextType | undefined>(undefined)
 
 export const newBoardData = () =>
@@ -75,6 +77,14 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
   const [lines, setLines] = useState(0)
   const [nextTick, setNextTick] = useState(Date.now() + getTimeOut(lines))
   const [gameSettings, setGameSettings] = useState(defaultGameSettings)
+  const highScore = parseInt(localStorage.getItem(highScoreStorageLabel) ?? "0")
+
+  const updateScore = (s: number) => {
+    setScore(s)
+    if (s > highScore) {
+      localStorage.setItem(highScoreStorageLabel, s.toString())
+    }
+  }
 
   const settings = newHandler(gameSettings, setGameSettings)
 
@@ -93,7 +103,7 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     result = [...newRows, ...result]
     setBoard(result)
     if (rowCount > 0) {
-      setScore(score + 2 ** (rowCount - 1))
+      updateScore(score + 2 ** (rowCount - 1))
     }
     setLines(lines + rowCount)
     newPiece(pieces, setPieces, pieceCounts, setPieceCounts)
@@ -130,6 +140,7 @@ export const GameProvider = ({ children }: { children: React.ReactNode }) => {
     nextTick,
     resetGame,
     setNextTick,
+    highScore,
   }
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>

@@ -28,6 +28,7 @@ export const PauseScreen = () => {
       const commands: Record<string, () => void> = {
         KeyR: restart,
         KeyQ: exit,
+        Escape: unpause,
       }
 
       if (Object.keys(commands).indexOf(event.code) >= 0 && settings.paused) {
