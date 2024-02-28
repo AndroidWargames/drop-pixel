@@ -66,7 +66,7 @@ export const droppedPiece = (fallingPiece: Piece, board: BoardData) => {
   return newPiece
 }
 
-export const sumPieceAndBoard = (piece: Piece, board: BoardData) => {
+export const sumPieceAndBoard = (piece: Piece, board: BoardData): BoardData => {
   let newBoard = newBoardData()
   board.forEach((row, y) => {
     row.forEach((block, x) => {
@@ -76,6 +76,7 @@ export const sumPieceAndBoard = (piece: Piece, board: BoardData) => {
     })
   })
   absoluteChonks(piece).forEach((chonk) => {
+    console.log(chonk)
     newBoard[chonk.y][chonk.x] = sumColors(
       chonk.color,
       newBoard[chonk.y][chonk.x]

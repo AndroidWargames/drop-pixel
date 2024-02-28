@@ -1,4 +1,10 @@
-export type View = "menu" | "game"
+export type View =
+  | "menu"
+  | "game"
+  | "tutorial"
+  | "controls"
+  | "colors"
+  | "objective"
 
 export type GameSettings = {
   triplex: boolean
@@ -27,7 +33,8 @@ export const newHandler = (
   setter: (s: GameSettings) => void
 ): GameSettingsHandler => ({
   ...settings,
-  setSettings: (newSettings: Partial<GameSettings>) => setter({ ...settings, ...newSettings}),
+  setSettings: (newSettings: Partial<GameSettings>) =>
+    setter({ ...settings, ...newSettings }),
   setTriplex: (triplex: boolean) => setter({ ...settings, triplex }),
   setAdditiveColor: (additiveColor: boolean) =>
     setter({ ...settings, additiveColor }),

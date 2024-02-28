@@ -13,7 +13,55 @@
   background-color: #111;
   gap: 3px;
   padding: 5px;
+  flex-direction: row;
+  display: inline-grid;
 }
+
+.TutorialAnimation {
+  flex-direction: column;
+  display: flex;
+  gap: 1em;
+}
+
+.tutorialText {
+  margin-top: 10px;
+  color: #AAA;
+  justify-content: center;
+  text-align: center;
+  user-select: none;
+  font-weight: bold;
+  text-wrap: wrap;
+}
+
+@keyframes blinky {
+  0% {
+    background-color: rgba(150,150,150,1);
+  }
+  100% {
+    background-color: rgba(0,0,0,0);
+  }
+}
+
+.blinkyInlineKey {
+  transition: background-color 0.1s;
+  background-color: #AAA;
+  font-family: monospace;
+  border-style: solid;
+  border-color: #AAA;
+  padding: 0 0.25em;
+  font-weight: bold;
+}
+
+.InlineKey {
+  transition: background-color 0;
+  animation: 1s ease-out 0s 1 blinky;
+  font-family: monospace;
+  border-style: solid;
+  border-color: #AAA;
+  padding: 0 0.25em;
+  font-weight: bold;
+}
+
 
 body {
   background-color: #111;

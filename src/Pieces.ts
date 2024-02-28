@@ -55,7 +55,7 @@ export const generatePiece = (counts?: Record<string, number>): Piece => {
   return generateSpecificPiece(pieceType.kind, pieceType.color)
 }
 
-const generateSpecificPiece = (kind: PieceKind, color: ColorData): Piece => {
+export const generateSpecificPiece = (kind: PieceKind, color: ColorData): Piece => {
   const template = pieceTemplates[kind]
   return {
     origin: template.origin,

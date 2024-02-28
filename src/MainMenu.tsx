@@ -9,17 +9,21 @@ export const MainMenu = () => {
     settings.setSettings({ paused: false, view: "game", triplex: false })
   }
 
+  const goToTutorial = () => settings.setView("tutorial")
+
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
-    >
-      <SettingsHeader text="DROP PIXEL" />
-      <SettingsButton onClick={startGame}>Start</SettingsButton>
+    <div style={{ display: "flex", justifyContent: "space-around" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <SettingsHeader text="DROP PIXEL" />
+        <SettingsButton onClick={startGame}>Start</SettingsButton>
+        <SettingsButton onClick={goToTutorial}>How to Play</SettingsButton>
+      </div>
     </div>
   )
 }
