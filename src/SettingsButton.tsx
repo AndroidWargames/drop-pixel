@@ -5,8 +5,10 @@ type Props = {
   children: ReactNode
 }
 
-export const SettingsButton = ({ onClick, children }: Props) => (
-  <div className="SettingsButton" onClick={onClick}>
-    {children}
-  </div>
-)
+export const SettingsButton = ({ onClick, children }: Props) => {
+  return (
+    <div className="SettingsButton" onClick={onClick}>
+      {children}
+    </div>
+  )
+}

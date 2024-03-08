@@ -76,13 +76,10 @@ export const Board = () => {
     }
   }, [board, settings.paused, gameOver])
 
-  const style = {
-    backgroundColor: settings.additiveColor ? "#333333" : "#CCCCCC",
-  }
 
   if (settings.triplex) {
     return (
-      <div style={style}>
+      <div >
         {[red, green, blue].map((filter, i) => (
           <Display
             board={board}
@@ -96,7 +93,7 @@ export const Board = () => {
     )
   } else {
     return (
-      <div style={style}>
+      <div >
         <Display board={board} outline={outline} tinge={tinge} />
       </div>
     )

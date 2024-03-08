@@ -36,12 +36,13 @@ export const GameOverScreen = () => {
   }, [gameOver])
 
   if (!gameOver) return null
-  const style = highScore == score ? {color: "#DDDD00"} : {}
+  const newHigh = highScore == score
+  const style = newHigh ? {color: "#DDDD00"} : {}
 
   return (
     <DarkenedOverlay>
       <SettingsHeader text="GAME OVER" />
-      <div className="tutorialText" style={style}>High Score!</div>
+      {newHigh && <div className="tutorialText" style={style}>High Score!</div>}
       <div className="tutorialText" style={style}>Score: {score}</div>
       <div className="tutorialText" style={style}>Lines: {lines}</div>
       <SettingsButton onClick={restart}>

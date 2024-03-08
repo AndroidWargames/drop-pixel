@@ -76,7 +76,6 @@ export const sumPieceAndBoard = (piece: Piece, board: BoardData): BoardData => {
     })
   })
   absoluteChonks(piece).forEach((chonk) => {
-    console.log(chonk)
     newBoard[chonk.y][chonk.x] = sumColors(
       chonk.color,
       newBoard[chonk.y][chonk.x]

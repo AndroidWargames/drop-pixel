@@ -1,13 +1,12 @@
 import { useGameContext } from "./GameContext"
 import { BoardData, Piece } from "./types"
 import { black } from "./Colors"
-import {Block} from "./Block"
+import { Block } from "./Block"
+import { useSizeContext } from "./SizeContext"
 
 const style = {
   display: "inline-grid",
   gridTemplateColumns: Array(3).fill("auto").join(" "),
-  paddingLeft: "10px",
-  gap: "3px",
 }
 
 const pieceHeight = (piece: Piece): number => {
@@ -33,21 +32,18 @@ const pieceGrid = (pieces: Piece[]): BoardData => {
   return data
 }
 
-const PieceDisplay = ({ pieces }: { pieces: Piece[] }) => (
-  <div style={style} className="Board">
-    {pieceGrid(pieces).map((row, y) => (
-        row.map((color, x) => (
-          <Block
-            key={`${x}${y}`}
-            color={color}
-            outline={false}
-          />
-        ))
-    ))}
-  </div>
-)
-
 export const PieceQueue = () => {
+  const gap = `${useSizeContext().gapSize}px`
+  const PieceDisplay = ({ pieces }: { pieces: Piece[] }) => (
+    <div style={{ ...style, gap }} className="Board">
+      {pieceGrid(pieces).map((row, y) =>
+        row.map((color, x) => (
+          <Block key={`${x}${y}`} color={color} outline={false} />
+        ))
+      )}
+    </div>
+  )
+
   const { pieces } = useGameContext()
 
   return (

@@ -35,12 +35,12 @@ export const subtractiveColorToHex = (color: ColorData, tinge?: ColorData) => {
     if (y && b)
       return "#33AA33"
     if (y)
-      return "#CCCC33"
+      return "#BBBB22"
     if (r)
       return "#EE3344"
     if (b)
       return "#4466DD"
-    return "#BBBBBB"
+    return "#AAAAAA"
 }
 
 export const additiveColorToHex = (color: ColorData, tinge?: ColorData, opacity?: number) => {
