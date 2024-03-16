@@ -1,6 +1,7 @@
 import { useGameContext } from "../GameContext"
 import { SettingsButton } from "../SettingsButton"
 import { SettingsHeader } from "../SettingsHeader"
+import { SizeProvider } from "../SizeContext"
 
 export const HowToPlay = () => {
   const { settings } = useGameContext()
@@ -10,14 +11,22 @@ export const HowToPlay = () => {
   const goToObjective = () => settings.setView("objective")
 
   return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
-      <div style={{ display: "flex", justifyContent: "center", flexDirection: "column"}}>
-        <SettingsHeader text="How To Play" />
-        <SettingsButton onClick={goToColors}>Colors</SettingsButton>
-        <SettingsButton onClick={goToObjective}>Objective</SettingsButton>
-        <SettingsButton onClick={goToControls}>Controls</SettingsButton>
-        <SettingsButton onClick={goToMainMenu}>Back</SettingsButton>
+    <SizeProvider>
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
+        >
+          <SettingsHeader text="How To Play" />
+          <SettingsButton onClick={goToColors}>Colors</SettingsButton>
+          <SettingsButton onClick={goToObjective}>Objective</SettingsButton>
+          <SettingsButton onClick={goToControls}>Controls</SettingsButton>
+          <SettingsButton onClick={goToMainMenu}>Back</SettingsButton>
+        </div>
       </div>
-    </div>
+    </SizeProvider>
   )
 }

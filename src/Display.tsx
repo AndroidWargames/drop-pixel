@@ -22,6 +22,7 @@ export const Display = ({ board, outline, tinge, colorFilter }: Props) => {
   const { gapSize } = useSizeContext()
   const gap = `${gapSize}px` 
   const padding = `${gapSize * 2}px` 
+  console.log({gapSize})
   return (
   <div style={{...style, gap, padding}} className="Display">
       {board.map((row, y) =>

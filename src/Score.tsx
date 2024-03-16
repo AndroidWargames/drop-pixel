@@ -6,7 +6,7 @@ export const Score = () => {
   const { score, highScore, lines } = useGameContext()
   const { setScoreWidth, height, width } = useSizeContext()
 
-  const style = highScore == score ? { color: "#DDDD00" } : {}
+  const style = highScore == score && score > 0 ? { color: "#DDDD00" } : {}
 
   const ref = useRef<HTMLDivElement>(null)
 

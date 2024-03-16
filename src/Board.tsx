@@ -1,32 +1,11 @@
 import { useEffect } from "react"
 import { getTimeOut, useGameContext } from "./GameContext"
-import { FallingPieceController } from "./types"
+import { executeKeyCommand, executeTouchCommand } from "./executeCommand"
 import { absoluteChonks } from "./FallingPieceController"
 import { any } from "./reducers"
 import { Display } from "./Display"
 import { blue, green, red } from "./Colors"
-import { GameSettingsHandler } from "./GameSettings"
-
-const executeCommand = (
-  controller: FallingPieceController,
-  settings: GameSettingsHandler
-) => {
-  const commands: Record<string, () => void> = {
-    ArrowUp: controller.rotateLeft,
-    KeyT: () => settings.setTriplex(!settings.triplex),
-    KeyC: () => settings.setAdditiveColor(!settings.additiveColor),
-    KeyP: () => settings.setPaused(!settings.paused),
-    Space: controller.drop,
-    ArrowLeft: controller.shiftLeft,
-    ArrowRight: controller.shiftRight,
-    ArrowDown: controller.shiftDown,
-  }
-  return (event: KeyboardEvent) => {
-    if (Object.keys(commands).indexOf(event.code) >= 0) {
-      commands[event.code]()
-    }
-  }
-}
+import {useTouch} from "./useTouch"
 
 export const Board = () => {
   const {
@@ -39,7 +18,8 @@ export const Board = () => {
     lines,
     gameOver,
   } = useGameContext()
-  const execute = executeCommand(fallingPieceController, settings)
+  const executeKey = executeKeyCommand(fallingPieceController, settings)
+  const executeTouch = executeTouchCommand(fallingPieceController)
   const chonks = absoluteChonks(ghostPiece)
   const outline = (x: number, y: number) =>
     chonks.map((c) => c.x == x && c.y == y).reduce(any)
@@ -48,9 +28,11 @@ export const Board = () => {
     return chonk?.color
   }
 
+  useTouch(executeTouch)
+
   useEffect(() => {
     const handlekeydownEvent = (event: KeyboardEvent) => {
-      execute(event)
+      executeKey(event)
     }
 
     document.addEventListener("keyup", handlekeydownEvent)

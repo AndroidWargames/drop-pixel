@@ -12,8 +12,8 @@ export type SizeContextType = {
 const defaultContext = {
   height: 0,
   width: 0,
-  blockSize: 30,
-  gapSize: 30,
+  blockSize: 25,
+  gapSize: 2.5,
   setScoreWidth: (_: number) => {},
 }
 
@@ -53,7 +53,7 @@ const blockSizeFromDimensions = (
 ) => {
   const heightInBlocks = boardHeight + 2 + (boardHeight + 1) * gapRatio
   const w = triplex ? boardWidth * 3 : boardWidth
-  const widthInBlocks = w + 2 + (w + 11) * gapRatio
+  const widthInBlocks = w  + (w + 9) * gapRatio
 
   const blockRatio = width / height
   const displayRatio = widthInBlocks / heightInBlocks

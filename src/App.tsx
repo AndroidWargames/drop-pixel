@@ -1,15 +1,22 @@
+import { useEffect } from "react"
 import "./App.css"
 import { GameProvider } from "./GameContext"
 import { Router } from "./Router"
-import { SizeProvider } from "./SizeContext"
+import { InterfaceProvider } from "./InterfaceContext"
 
 export const App = () => {
+  useEffect(() => {
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = "scroll"
+    }
+  }, [])
   return (
     <div className="App">
       <GameProvider>
-        <SizeProvider>
+        <InterfaceProvider>
           <Router />
-        </SizeProvider>
+        </InterfaceProvider>
       </GameProvider>
     </div>
   )
