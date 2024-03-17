@@ -5,7 +5,8 @@
 
 .App {
   justify-content: center;
-  background-color: #111
+  background-color: #111;
+  user-select: none;
 }
 
 .Display {
